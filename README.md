@@ -1,6 +1,9 @@
 # Homework Helpers
 
-A small directory of browser-based practice tools for homework time. The first helper is **Chinese Listening Match**: the browser reads a Mandarin word and the learner selects the matching Chinese characters from ten choices before the eight-second timer expires.
+A small directory of browser-based practice tools for homework time.
+
+- **Chinese Listening Match** reads a Mandarin word and asks the learner to match its characters before the timer expires.
+- **Math Adventures** offers untimed, eight-question rounds in addition, subtraction, US money, telling time, or a balanced mix. “Starting out” covers numbers to 10, coins to 20¢, and whole hours; “Next step” covers numbers to 20, money to $1.00, and whole or half hours.
 
 ## Run locally
 

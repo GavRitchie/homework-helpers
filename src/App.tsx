@@ -1,5 +1,6 @@
 import { Link, Route, Routes } from "react-router-dom";
 import { ListeningGame } from "./game/ListeningGame";
+import { MathAdventures } from "./math/MathAdventures";
 
 function BookIcon() {
   return (
@@ -22,6 +23,8 @@ function HeadphonesIcon() {
   );
 }
 
+function MathIcon() { return <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="20" cy="20" r="13"/><path d="M14 20h12M20 14v12M40 14l16 16M56 14 40 30M39 44h18M39 52h18"/></svg>; }
+
 function HomePage() {
   return (
     <main className="home-shell">
@@ -40,7 +43,7 @@ function HomePage() {
             <p className="eyebrow">Pick an activity</p>
             <h2 id="practice-heading">What are we practicing today?</h2>
           </div>
-          <span className="app-count">1 helper</span>
+          <span className="app-count">2 helpers</span>
         </div>
 
         <div className="app-grid">
@@ -55,13 +58,7 @@ function HomePage() {
             <span className="character-stamp" aria-hidden="true">听</span>
           </Link>
 
-          <div className="app-card coming-soon" aria-label="More helpers coming soon">
-            <div className="plus-mark">+</div>
-            <div>
-              <h3>More helpers soon</h3>
-              <p>This directory is ready to grow with the next homework challenge.</p>
-            </div>
-          </div>
+          <Link to="/math-adventures" className="app-card math-app-card"><div className="app-card-icon"><MathIcon /></div><div className="app-card-copy"><span className="subject-tag">Math</span><h3>Math Adventures</h3><p>Practice addition, subtraction, money, and clocks with friendly hints along the way.</p><span className="card-action">Start practicing <span aria-hidden="true">→</span></span></div><span className="character-stamp math-stamp" aria-hidden="true">+</span></Link>
         </div>
       </section>
 
@@ -75,6 +72,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/chinese-listening" element={<ListeningGame />} />
+      <Route path="/math-adventures" element={<MathAdventures />} />
       <Route path="*" element={<HomePage />} />
     </Routes>
   );

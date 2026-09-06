@@ -86,7 +86,7 @@ h1, h2, h3 { font-family: "Fredoka", "DM Sans", system-ui, sans-serif; }
 .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 28px; }
 .section-heading h2 { font-size: clamp(1.6rem, 3vw, 2.25rem); margin: 0; letter-spacing: -.02em; }
 .app-count { background: var(--cream); color: var(--muted); border-radius: 99px; padding: 8px 13px; font-size: .85rem; font-weight: 700; white-space: nowrap; }
-.app-grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(240px, .85fr); gap: 20px; }
+.app-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
 
 .app-card {
   position: relative;
@@ -113,6 +113,8 @@ a.app-card:hover { transform: translateY(-4px); box-shadow: 0 18px 32px rgba(20,
 .app-card p { color: #566a6c; line-height: 1.55; }
 .card-action { color: var(--teal-dark); font-weight: 700; display: inline-flex; gap: 8px; align-items: center; margin-top: 10px; }
 .character-stamp { position: absolute; color: rgba(20, 125, 119, .08); font-family: serif; font-size: 10rem; right: -16px; bottom: -54px; transform: rotate(-7deg); }
+.math-app-card { background: linear-gradient(135deg,#fff0d2,#fffaf0); border-color:#ead19b; }
+.math-app-card .app-card-icon { background:var(--coral); }.math-app-card .subject-tag,.math-app-card .card-action{color:#a74435}.math-stamp{color:rgba(239,108,88,.09)}
 
 .coming-soon { flex-direction: column; justify-content: center; border-style: dashed; border-color: var(--line); background: #fcfaf5; }
 .coming-soon h3 { font-size: 1.35rem; margin: 0 0 7px; }
@@ -259,3 +261,13 @@ legend { font-family: "Fredoka", sans-serif; font-size: 1.12rem; font-weight: 60
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+/* Math Adventures */
+.math-hero{background:linear-gradient(155deg,#fff0cf,#fff8e8)}.math-hero::after{content:"+";color:rgba(239,108,88,.08)}.math-hero-icon{width:82px;height:82px;border-radius:24px;background:var(--coral);color:#fff;display:grid;place-items:center;font:700 1.45rem Fredoka;margin-bottom:34px;transform:rotate(-4deg)}
+.math-topic-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.math-topic-grid .selection-card:last-child{grid-column:1/-1}.math-setup{width:min(960px,100%)}
+.math-question{margin-top:28px}.math-question>h1{margin-bottom:22px}.math-choices{grid-template-columns:repeat(4,1fr);max-width:760px;margin:28px auto 0}.math-choices .choice-card{font-size:clamp(1.25rem,3vw,1.8rem)}
+.coin-row{min-height:92px;display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap}.coin{width:62px;height:62px;border:4px double #9b7040;border-radius:50%;background:#d69850;color:#593b20;display:grid;place-content:center;line-height:.8;box-shadow:inset 0 0 0 3px #efba75}.coin small{font-size:.7rem}.coin-5{width:72px;height:72px;background:#cad0ce;border-color:#78817e;box-shadow:inset 0 0 0 3px #edf0ef}.coin-10{width:55px;height:55px;background:#cbd1cf;border-color:#78817e;box-shadow:inset 0 0 0 3px #edf0ef}.coin-25{width:79px;height:79px;background:#cbd1cf;border-color:#78817e;box-shadow:inset 0 0 0 3px #edf0ef}
+.math-clock{width:min(220px,55vw);display:block;margin:0 auto}.math-clock>circle{fill:#fff;stroke:var(--teal);stroke-width:5}.clock-numbers{font:bold 14px Fredoka;fill:var(--ink)}.hour-hand,.minute-hand{stroke:var(--ink);stroke-linecap:round}.hour-hand{stroke-width:8}.minute-hand{stroke-width:5}.clock-pin{fill:var(--coral)}
+.counter-row{display:flex;gap:9px;align-items:center;justify-content:center;flex-wrap:wrap;max-width:600px;margin:0 auto}.counter-row span{width:30px;height:30px;border-radius:50%;background:var(--teal);position:relative}.counter-row .second{background:var(--gold)}.counter-row i{height:42px;border-left:2px dashed var(--line);margin:0 6px}.counter-row .crossed::after{content:"×";position:absolute;inset:-9px;color:var(--coral);font-size:2.5rem;line-height:1}
+.hint-panel{max-width:650px;margin:18px auto 0;padding:15px 20px;background:#fff5dc;border-radius:14px;color:#665124}.hint-panel p{margin:4px 0 0}.math-actions{display:flex;justify-content:center;margin-top:22px}.hint-button:disabled{opacity:.7}.math-review{margin-top:28px;border-top:1px solid var(--line);padding-top:20px;text-align:left}.math-review h2{text-align:center;font-size:1.25rem}.math-review>div{display:flex;justify-content:space-between;gap:20px;background:#faf7f0;padding:12px 15px;border-radius:11px;margin:8px 0}.math-review span{color:var(--muted)}
+@media(max-width:760px){.math-topic-grid{grid-template-columns:1fr}.math-topic-grid .selection-card:last-child{grid-column:auto}.math-choices{grid-template-columns:repeat(2,1fr)}.math-review>div{display:grid}.math-hero-icon{margin-bottom:18px}}
