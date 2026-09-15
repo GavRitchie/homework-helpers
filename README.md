@@ -2,7 +2,7 @@
 
 A small directory of browser-based practice tools for homework time.
 
-- **Chinese Listening Match** reads a Mandarin word and asks the learner to match its characters before the timer expires.
+- **Chinese Listening Match** reads a Mandarin word and asks the learner to match its characters, with an optional configurable timer.
 - **Math Adventures** offers untimed, eight-question rounds in addition, subtraction, US money, telling time, or a balanced mix. “Starting out” covers numbers to 10, coins to 20¢, and whole hours; “Next step” covers numbers to 20, money to $1.00, and whole or half hours.
 
 ## Run locally

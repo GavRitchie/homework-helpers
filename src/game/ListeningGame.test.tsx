@@ -1,4 +1,4 @@
-import { act, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import { afterEach, describe, expect, it, vi } from "vitest";
@@ -44,6 +44,34 @@ describe("ListeningGame", () => {
     expect(screen.getByText(/Time's up/)).toBeInTheDocument();
     act(() => vi.advanceTimersByTime(900));
     expect(screen.getByText("2", { selector: ".progress-copy strong" })).toBeInTheDocument();
+  });
+
+  it("lets the learner practice without a timer", () => {
+    vi.useFakeTimers();
+    render(<MemoryRouter><ListeningGame /></MemoryRouter>);
+
+    fireEvent.click(screen.getByRole("checkbox", { name: /use a timer/i }));
+    expect(screen.getByText(/No timer/)).toBeInTheDocument();
+    act(() => screen.getByRole("button", { name: /start listening/i }).click());
+
+    expect(screen.queryByLabelText(/seconds remaining/i)).not.toBeInTheDocument();
+    act(() => vi.advanceTimersByTime(60_000));
+    expect(screen.getByText("1", { selector: ".progress-copy strong" })).toBeInTheDocument();
+    expect(screen.queryByText(/Time's up/)).not.toBeInTheDocument();
+  });
+
+  it("uses the configured number of seconds", () => {
+    vi.useFakeTimers();
+    render(<MemoryRouter><ListeningGame /></MemoryRouter>);
+
+    fireEvent.change(screen.getByRole("spinbutton", { name: /seconds per word/i }), { target: { value: "12" } });
+    act(() => screen.getByRole("button", { name: /start listening/i }).click());
+
+    expect(screen.getByLabelText("12 seconds remaining")).toBeInTheDocument();
+    act(() => vi.advanceTimersByTime(11_999));
+    expect(screen.queryByText(/Time's up/)).not.toBeInTheDocument();
+    act(() => vi.advanceTimersByTime(1));
+    expect(screen.getByText(/Time's up/)).toBeInTheDocument();
   });
 
   it("marks a selected answer only once", () => {

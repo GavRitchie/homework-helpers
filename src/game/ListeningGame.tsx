@@ -11,7 +11,9 @@ import {
   type CharacterVariant,
 } from "./gameLogic";
 
-const QUESTION_SECONDS = 8;
+const DEFAULT_QUESTION_SECONDS = 8;
+const MIN_QUESTION_SECONDS = 1;
+const MAX_QUESTION_SECONDS = 60;
 const FEEDBACK_DELAY_MS = 900;
 
 type Screen = "setup" | "playing" | "results";
@@ -30,13 +32,15 @@ export function ListeningGame() {
   const [screen, setScreen] = useState<Screen>("setup");
   const [listId, setListId] = useState("weekly");
   const [variant, setVariant] = useState<CharacterVariant>("simplified");
+  const [timerEnabled, setTimerEnabled] = useState(true);
+  const [questionSeconds, setQuestionSeconds] = useState(DEFAULT_QUESTION_SECONDS);
   const [questions, setQuestions] = useState<VocabularyEntry[]>([]);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [choices, setChoices] = useState<VocabularyEntry[]>([]);
   const [phase, setPhase] = useState<RoundPhase>("answering");
   const [selected, setSelected] = useState<VocabularyEntry | null>(null);
   const [results, setResults] = useState<AnswerResult[]>([]);
-  const [timeLeft, setTimeLeft] = useState(QUESTION_SECONDS);
+  const [timeLeft, setTimeLeft] = useState(DEFAULT_QUESTION_SECONDS);
   const [timedOut, setTimedOut] = useState(false);
   const [audioError, setAudioError] = useState("");
   const feedbackTimer = useRef<number | undefined>(undefined);
@@ -78,7 +82,7 @@ export function ListeningGame() {
     setTimedOut(false);
     setPhase("answering");
     acceptingAnswer.current = true;
-    setTimeLeft(QUESTION_SECONDS);
+    setTimeLeft(questionSeconds);
     setScreen("playing");
     setAudioError("");
     // Calling from the Start button's user gesture helps browsers allow speech.
@@ -97,18 +101,20 @@ export function ListeningGame() {
 
   useEffect(() => {
     if (screen !== "playing" || phase !== "answering" || !currentWord) return;
-    setTimeLeft(QUESTION_SECONDS);
-    const deadline = Date.now() + QUESTION_SECONDS * 1000;
+    if (!timerEnabled) return;
+
+    setTimeLeft(questionSeconds);
+    const deadline = Date.now() + questionSeconds * 1000;
     const intervalId = window.setInterval(() => {
       setTimeLeft(Math.max(0, Math.ceil((deadline - Date.now()) / 1000)));
     }, 100);
-    const timeoutId = window.setTimeout(() => finishQuestion(null), QUESTION_SECONDS * 1000);
+    const timeoutId = window.setTimeout(() => finishQuestion(null), questionSeconds * 1000);
 
     return () => {
       window.clearInterval(intervalId);
       window.clearTimeout(timeoutId);
     };
-  }, [currentWord, finishQuestion, phase, screen]);
+  }, [currentWord, finishQuestion, phase, questionSeconds, screen, timerEnabled]);
 
   useEffect(() => {
     if (screen !== "playing" || phase !== "feedback") return;
@@ -153,7 +159,7 @@ export function ListeningGame() {
             <div className="hero-speaker"><SpeakerIcon /></div>
             <p className="eyebrow">Chinese practice</p>
             <h1>Listening Match</h1>
-            <p>Hear a word. Find its characters. Beat the clock.</p>
+            <p>Hear a word. Find its characters. Use a timer—or take your time.</p>
           </div>
 
           <div className="setup-options">
@@ -187,6 +193,37 @@ export function ListeningGame() {
               </div>
             </fieldset>
 
+            <fieldset>
+              <legend>3. Set your pace</legend>
+              <div className="timer-setting">
+                <label className="timer-toggle">
+                  <input
+                    type="checkbox"
+                    checked={timerEnabled}
+                    onChange={(event) => setTimerEnabled(event.target.checked)}
+                  />
+                  <span className="toggle-track" aria-hidden="true"><span /></span>
+                  <span><strong>Use a timer</strong><small>Move on automatically when time runs out</small></span>
+                </label>
+                <label className="duration-setting">
+                  <span>Seconds per word</span>
+                  <input
+                    type="number"
+                    min={MIN_QUESTION_SECONDS}
+                    max={MAX_QUESTION_SECONDS}
+                    value={questionSeconds}
+                    disabled={!timerEnabled}
+                    onChange={(event) => {
+                      const seconds = Number(event.target.value);
+                      if (Number.isFinite(seconds)) {
+                        setQuestionSeconds(Math.min(MAX_QUESTION_SECONDS, Math.max(MIN_QUESTION_SECONDS, seconds)));
+                      }
+                    }}
+                  />
+                </label>
+              </div>
+            </fieldset>
+
             {validationErrors.length > 0 && (
               <div className="error-panel" role="alert">
                 <strong>This word list needs attention:</strong>
@@ -197,7 +234,10 @@ export function ListeningGame() {
             <button className="primary-button" onClick={startGame} disabled={validationErrors.length > 0}>
               Start listening <span aria-hidden="true">→</span>
             </button>
-            <p className="game-note"><span aria-hidden="true">⏱</span> {QUESTION_SECONDS} seconds per word · 10 choices · {selectedList.entries.length} questions</p>
+            <p className="game-note">
+              <span aria-hidden="true">{timerEnabled ? "⏱" : "∞"}</span>{" "}
+              {timerEnabled ? `${questionSeconds} seconds per word` : "No timer"} · 10 choices · {selectedList.entries.length} questions
+            </p>
           </div>
         </section>
       </main>
@@ -256,13 +296,15 @@ export function ListeningGame() {
       <div className="progress-track" aria-hidden="true"><span style={{ width: `${((questionIndex + (phase === "feedback" ? 1 : 0)) / questions.length) * 100}%` }} /></div>
 
       <section className="question-area">
-        <div className={`timer ${timeLeft <= 3 ? "urgent" : ""}`} aria-label={`${timeLeft} seconds remaining`}>
-          <svg viewBox="0 0 44 44" aria-hidden="true">
-            <circle cx="22" cy="22" r="19" />
-            <circle className="timer-progress" cx="22" cy="22" r="19" pathLength="100" style={{ strokeDashoffset: 100 - (timeLeft / QUESTION_SECONDS) * 100 }} />
-          </svg>
-          <strong>{timeLeft}</strong>
-        </div>
+        {timerEnabled && (
+          <div className={`timer ${timeLeft <= 3 ? "urgent" : ""}`} aria-label={`${timeLeft} seconds remaining`}>
+            <svg viewBox="0 0 44 44" aria-hidden="true">
+              <circle cx="22" cy="22" r="19" />
+              <circle className="timer-progress" cx="22" cy="22" r="19" pathLength="100" style={{ strokeDashoffset: 100 - (timeLeft / questionSeconds) * 100 }} />
+            </svg>
+            <strong>{timeLeft}</strong>
+          </div>
+        )}
 
         <p className="eyebrow">Listen carefully</p>
         <h1>Which word did you hear?</h1>

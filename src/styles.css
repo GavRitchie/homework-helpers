@@ -155,6 +155,22 @@ legend { font-family: "Fredoka", sans-serif; font-size: 1.12rem; font-weight: 60
 .segmented-control strong, .segmented-control small { display: block; }
 .segmented-control strong { font-size: .86rem; }
 .segmented-control small { color: var(--muted); font-size: .72rem; }
+.timer-setting { border: 1.5px solid var(--line); border-radius: 14px; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+.timer-toggle { display: flex; align-items: center; gap: 11px; cursor: pointer; }
+.timer-toggle > input { position: absolute; opacity: 0; pointer-events: none; }
+.timer-toggle strong, .timer-toggle small { display: block; }
+.timer-toggle strong { font-size: .9rem; }
+.timer-toggle small { color: var(--muted); font-size: .72rem; margin-top: 2px; }
+.toggle-track { width: 42px; height: 24px; padding: 3px; flex: 0 0 auto; border-radius: 99px; background: #cbc6bc; transition: background .15s; }
+.toggle-track span { display: block; width: 18px; height: 18px; border-radius: 50%; background: white; box-shadow: 0 1px 3px rgba(0, 0, 0, .2); transition: transform .15s; }
+.timer-toggle input:checked + .toggle-track { background: var(--teal); }
+.timer-toggle input:checked + .toggle-track span { transform: translateX(18px); }
+.timer-toggle input:focus-visible + .toggle-track { outline: 3px solid rgba(20, 125, 119, .25); outline-offset: 2px; }
+.duration-setting { color: var(--muted); font-size: .72rem; text-align: center; }
+.duration-setting span { display: block; margin-bottom: 4px; }
+.duration-setting input { width: 72px; height: 38px; border: 1.5px solid var(--line); border-radius: 9px; color: var(--ink); background: white; text-align: center; font: 700 .95rem "DM Sans", sans-serif; }
+.duration-setting input:focus { outline: 3px solid rgba(20, 125, 119, .18); border-color: var(--teal); }
+.duration-setting input:disabled { background: #f2eee6; color: #aaa399; cursor: not-allowed; }
 .primary-button, .secondary-button { min-height: 52px; border-radius: 13px; padding: 0 22px; display: inline-flex; justify-content: center; align-items: center; gap: 13px; font-weight: 700; text-decoration: none; cursor: pointer; }
 .primary-button { border: 0; background: var(--teal); color: white; box-shadow: 0 7px 0 #0f625e; }
 .primary-button:hover { background: #116f6a; }
@@ -254,6 +270,9 @@ legend { font-family: "Fredoka", sans-serif; font-size: 1.12rem; font-weight: 60
   .app-card { flex-direction: column; }
   .segmented-control { grid-template-columns: 1fr; }
   .setup-options { padding: 26px 20px; }
+  .timer-setting { align-items: stretch; flex-direction: column; }
+  .duration-setting { display: flex; align-items: center; justify-content: space-between; text-align: left; }
+  .duration-setting span { margin-bottom: 0; }
   .missed-grid { grid-template-columns: 1fr; }
   .result-actions { flex-direction: column; }
 }
