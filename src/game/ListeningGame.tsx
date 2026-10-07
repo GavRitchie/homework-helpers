@@ -326,7 +326,8 @@ export function ListeningGame() {
                 disabled={phase !== "answering"}
                 aria-label={`Choose ${getCharacters(entry, variant)}`}
               >
-                {getCharacters(entry, variant)}
+                <span className="choice-characters">{getCharacters(entry, variant)}</span>
+                {entry.english && <small className="choice-english">{entry.english}</small>}
                 {stateClass && <span className="answer-mark" aria-hidden="true">{isCorrect ? "✓" : "×"}</span>}
               </button>
             );
