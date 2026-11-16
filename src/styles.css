@@ -225,10 +225,11 @@ legend { font-family: "Fredoka", sans-serif; font-size: 1.12rem; font-weight: 60
 .missed-words h2 { font-size: 1.2rem; text-align: center; }
 .missed-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px; }
 .missed-grid > div { min-height: 60px; background: #faf7f0; border-radius: 12px; padding: 9px 9px 9px 15px; display: grid; grid-template-columns: 1fr auto; align-items: center; }
-.missed-grid strong, .missed-grid span { grid-column: 1; }
+.missed-grid strong, .missed-grid span, .missed-grid .missed-english { grid-column: 1; }
+.missed-grid .missed-english { font-style: normal; font-size: .82rem; font-weight: 600; color: var(--teal-dark); margin-top: 2px; }
 .missed-grid strong { font-size: 1.1rem; }
 .missed-grid span { color: var(--muted); font-size: .76rem; }
-.missed-grid button { grid-column: 2; grid-row: 1 / 3; border: 0; background: white; border-radius: 50%; width: 38px; height: 38px; display: grid; place-items: center; cursor: pointer; }
+.missed-grid button { grid-column: 2; grid-row: 1 / 4; border: 0; background: white; border-radius: 50%; width: 38px; height: 38px; display: grid; place-items: center; cursor: pointer; }
 .missed-grid svg { width: 19px; fill: var(--teal); stroke: var(--teal); }
 .perfect-message { background: var(--teal-pale); padding: 17px; border-radius: 12px; color: var(--teal-dark); font-weight: 700; }
 .result-actions { display: flex; justify-content: center; gap: 13px; margin-top: 32px; }

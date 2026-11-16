@@ -267,6 +267,7 @@ export function ListeningGame() {
                   <div key={`${entry.simplified}-${index}`}>
                     <strong>{entry.simplified}</strong>
                     <span>{entry.traditional}</span>
+                    {entry.english && <em className="missed-english">{entry.english}</em>}
                     <button aria-label={`Play ${getCharacters(entry, variant)} again`} onClick={() => speak(entry)}><SpeakerIcon /></button>
                   </div>
                 ))}
